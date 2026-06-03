@@ -1,27 +1,41 @@
 # petcpp — CLI Snippet Manager (C++ port of pet)
 
-A zero-dependency C++ port of [pet](https://github.com/knqyf263/pet) — manage your command-line snippets with interactive search and parameter substitution.
+A zero-dependency C++ port of [pet](https://github.com/knqyf263/pet) — manage command-line snippets with interactive search, template variables, and optional Gist sync.
 
 ## Why petcpp?
 
-The original [pet](https://github.com/knqyf263/pet) requires the Go toolchain plus dozens of modules. petcpp compiles with a single `make` using only C++17 and standard Linux headers.
+The original [pet](https://github.com/knqyf263/pet) requires Go plus dozens of modules. petcpp compiles with a single `make` using only C++17.
 
 ## Quick Start
 
 ```bash
 make
-./petcpp search
-./petcpp new "git log --oneline -n {{count}}"
+./petcpp configure             # Initialize config
+./petcpp new                   # Create a snippet interactively
+./petcpp search "git log"      # Search snippets
+./petcpp exec 1                # Execute snippet #1
 ```
 
 ## Features
 
-- Interactive fuzzy search of snippets
-- Parameter placeholders with auto-prompting (e.g., `{{name}}`)
-- Add, edit, delete, and list snippets
-- TOML-based snippet storage
-- Exec mode to run snippets directly
-- Sync snippets via Gist (optional)
+- **new** — Create snippet with description, command, and tag
+- **list** — List all snippets (`-1` for compact, `-c` for color)
+- **search** — Fuzzy search by description/command
+- **edit** — Edit snippet by index
+- **exec** — Execute snippet (with `{{variable}}` template substitution)
+- **configure** — Set up config file (Gist ID, editor)
+- **sync** — Push/pull snippets to/from GitHub Gist
+- Tag filtering (`-t TAG`)
+
+## Snippet Format
+
+Snippets are stored in TOML:
+```toml
+[[snippets]]
+description = "Git log with count"
+command = "git log --oneline -n {{count}}"
+tag = ["git"]
+```
 
 ## Build
 
